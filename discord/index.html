@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lobby by BlackStar</title>
+<meta name="description" content="100% completed saves for PlayStation, Xbox, Nintendo Switch and PC. Join the Lobby by BlackStar Discord server.">
+<meta property="og:title" content="Lobby by BlackStar">
+<meta property="og:description" content="100% completed saves for PlayStation, Xbox, Nintendo Switch and PC. Join us on Discord.">
+<meta property="og:image" content="https://blackstarlobby.github.io/logo.png">
+<meta name="theme-color" content="#070A1A">
+<link rel="icon" href="/logo.png">
+<style>
+  :root { --night:#070A1A; --violet:#7B3FF2; --glow:#9FD4FF; --discord:#5865F2; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; min-height:100%; }
+  body {
+    background:radial-gradient(120% 80% at 50% 0%, #1a1440 0%, var(--night) 60%);
+    color:#fff; font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    display:flex; align-items:center; justify-content:center; min-height:100vh; padding:24px 16px;
+  }
+  main { width:100%; max-width:420px; text-align:center; }
+  img.logo { width:104px; height:104px; border-radius:24px; box-shadow:0 0 40px rgba(123,63,242,.55); }
+  h1 { font-size:24px; margin:18px 0 4px; }
+  p.tag { margin:0 0 6px; color:#d9d4ff; }
+  p.sub { margin:0 0 22px; color:var(--glow); font-weight:600; min-height:1.45em; }
+  a.btn {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:18px 20px; border-radius:14px; text-decoration:none;
+    background:var(--discord); color:#fff; font-weight:700; font-size:19px;
+    box-shadow:0 8px 24px rgba(88,101,242,.45); animation:pulse 1.8s ease-in-out infinite;
+  }
+  a.btn:active { transform:scale(.98); }
+  a.btn svg { width:26px; height:26px; fill:#fff; flex:none; }
+  @keyframes pulse { 50% { box-shadow:0 8px 34px rgba(88,101,242,.85); } }
+  @media (prefers-reduced-motion:reduce) { a.btn { animation:none; } }
+  .hint { margin-top:16px; padding:14px; border-radius:12px; background:rgba(255,255,255,.08); font-size:15px; display:none; }
+  .hint b { color:#fff; }
+  ul.perks { list-style:none; padding:0; margin:24px 0 0; text-align:left; font-size:15px; color:#cfd3ee; }
+  ul.perks li { padding:6px 0 6px 26px; position:relative; }
+  ul.perks li::before { content:"✓"; position:absolute; left:4px; color:var(--glow); font-weight:700; }
+  .copy { margin-top:22px; font-size:13px; color:#99a; }
+  .copy code { color:#fff; background:rgba(255,255,255,.08); padding:3px 6px; border-radius:6px; }
+  .copy button { margin-left:6px; font:inherit; color:var(--glow); background:none; border:1px solid rgba(159,212,255,.4); border-radius:6px; padding:2px 8px; cursor:pointer; }
+  .new { margin-top:10px; font-size:13px; color:#99a; }
+  .new a { color:var(--glow); }
+</style>
+</head>
+<body>
+<main>
+  <img class="logo" src="/logo.png" alt="Lobby by BlackStar" width="104" height="104">
+  <h1>Lobby by BlackStar</h1>
+  <p class="tag">100% completed saves<br>PlayStation · Xbox · Nintendo Switch · PC</p>
+  <p class="sub" id="status">Opening Discord…</p>
+
+  <a class="btn" id="open" href="https://discord.gg/65ZuSu3PhC">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.4 18.4 0 0 0-5.5 0L8.6 3a19.7 19.7 0 0 0-4.9 1.4C.6 9 0 13.6.3 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-.9l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 .9l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.2-.8-9.7-3.8-13.7ZM8.5 15.4c-1.2 0-2.1-1.1-2.1-2.4s.9-2.4 2.1-2.4 2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4Zm7 0c-1.2 0-2.1-1.1-2.1-2.4s.9-2.4 2.1-2.4 2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4Z"/></svg>
+    Join on Discord
+  </a>
+  <div class="hint" id="hint"></div>
+
+  <ul class="perks">
+    <li>Every item, weapon and unlock, maxed</li>
+    <li>Skip hundreds of hours of grinding</li>
+    <li>Full catalog and orders on our Discord</li>
+  </ul>
+
+  <p class="copy">Invite link: <code>discord.gg/65ZuSu3PhC</code><button type="button" id="copy">Copy</button></p>
+  <p class="new">No Discord account? <a href="https://discord.gg/65ZuSu3PhC">Sign up free and join here</a></p>
+</main>
+<script>
+(function () {
+  var CODE = "65ZuSu3PhC";
+  var WEB = "https://discord.gg/" + CODE;
+  var ua = navigator.userAgent || "";
+  var android = /Android/i.test(ua);
+  var ios = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var inApp = /musical_ly|Bytedance|TikTok|Instagram|FBAN|FBAV|FB_IAB|FBIOS|Messenger|Threads/i.test(ua);
+  var fromInApp = /[?&]via=inapp/.test(location.search);
+  var btn = document.getElementById("open");
+  var status = document.getElementById("status");
+  var hint = document.getElementById("hint");
+
+  function showHint(html) { hint.innerHTML = html; hint.style.display = "block"; }
+  function stillHere(fn, ms) {
+    // If the app opened, the page is hidden: do nothing.
+    setTimeout(function () { if (!document.hidden) fn(); }, ms);
+  }
+
+  if (android) {
+    // Hands the invite straight to the Discord app, even inside TikTok,
+    // Instagram or Facebook. Without the app: the web invite.
+    var intent = "intent://discord.gg/" + CODE +
+      "#Intent;scheme=https;package=com.discord;S.browser_fallback_url=" +
+      encodeURIComponent(WEB) + ";end";
+    btn.href = intent;
+    location.href = intent;
+    if (/musical_ly|trill_|Bytedance|TikTok|ByteLocale/i.test(ua) && !fromInApp) {
+      // TikTok's Android browser can refuse intent links: reopen this page
+      // in Chrome, where the intent link opens the Discord app.
+      var page = location.href.split("#")[0];
+      stillHere(function () {
+        location.href = "googlechrome://navigate?url=" + page + (page.indexOf("?") < 0 ? "?" : "&") + "via=inapp";
+      }, 1200);
+    }
+    stillHere(function () { status.textContent = "Tap the button to open Discord"; }, 2500);
+  } else if (ios && inApp && !fromInApp) {
+    // In-app browsers on iPhone block the Discord app. Hop to Safari
+    // (iOS 17+), where one tap opens the app.
+    var here = location.href.split("#")[0];
+    location.href = "x-safari-" + here + (here.indexOf("?") < 0 ? "?" : "&") + "via=inapp";
+    stillHere(function () {
+      status.textContent = "Tap the button to open Discord";
+      showHint("App not opening? Tap <b>⋯</b> or <b>↗</b> at the top right, then <b>Open in browser</b>.");
+    }, 1200);
+  } else if (ios) {
+    // Safari: a tap on a discord.gg link opens the Discord app.
+    status.textContent = "Tap the button to open Discord";
+  } else {
+    status.textContent = "Join the server on Discord";
+  }
+
+  document.getElementById("copy").addEventListener("click", function () {
+    var b = this;
+    function done() { b.textContent = "Copied"; }
+    if (navigator.clipboard) { navigator.clipboard.writeText(WEB).then(done, function () {}); }
+    else {
+      var t = document.createElement("textarea"); t.value = WEB; document.body.appendChild(t);
+      t.select(); try { document.execCommand("copy"); done(); } catch (e) {} t.remove();
+    }
+  });
+})();
+</script>
+</body>
+</html>
