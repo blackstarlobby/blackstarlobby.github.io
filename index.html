@@ -45,6 +45,17 @@
   .new { margin-top:10px; font-size:13px; color:#99a; }
   .new a { color:var(--glow); }
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','3065404637158246');
+fbq('track','PageView');
+</script>
+<!-- End Meta Pixel -->
 </head>
 <body>
 <main>
@@ -80,6 +91,16 @@
   var btn = document.getElementById("open");
   var status = document.getElementById("status");
   var hint = document.getElementById("hint");
+  var leadSent = false;
+  function lead(how) {
+    if (leadSent || !window.fbq) return;
+    leadSent = true;
+    fbq("track", "Lead", { content_name: "discord_join", method: how });
+  }
+  btn.addEventListener("click", function () { lead("button"); });
+  Array.prototype.forEach.call(document.querySelectorAll('a[href*="discord.gg"]'), function (a) {
+    if (a !== btn) a.addEventListener("click", function () { lead("link"); });
+  });
 
   function showHint(html) { hint.innerHTML = html; hint.style.display = "block"; }
   function stillHere(fn, ms) {
@@ -94,7 +115,8 @@
       "#Intent;scheme=https;package=com.discord;S.browser_fallback_url=" +
       encodeURIComponent(WEB) + ";end";
     btn.href = intent;
-    location.href = intent;
+    lead("android_auto");
+    setTimeout(function () { location.href = intent; }, 250);
     if (/musical_ly|trill_|Bytedance|TikTok|ByteLocale/i.test(ua) && !fromInApp) {
       // TikTok's Android browser can refuse intent links: reopen this page
       // in Chrome, where the intent link opens the Discord app.
@@ -123,6 +145,7 @@
   document.getElementById("copy").addEventListener("click", function () {
     var b = this;
     function done() { b.textContent = "Copied"; }
+    lead("copy");
     if (navigator.clipboard) { navigator.clipboard.writeText(WEB).then(done, function () {}); }
     else {
       var t = document.createElement("textarea"); t.value = WEB; document.body.appendChild(t);
